@@ -1,0 +1,86 @@
+©------------------------------------------------------------------------
+©xPi V2000 for Calculator
+©TI-Nspire BASIC Version
+
+©Copyleft (c) 2014
+
+©This program is free software: you can redistribute it and/or modify
+©it under the terms of the GNU General Public License as published by
+©the Free Software Foundation, either version 3 of the License, or
+©(at your option) any later version.
+
+©This program is distributed in the hope that it will be useful,
+©but WITHOUT ANY WARRANTY; without even the implied warranty of
+©MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+©GNU General Public License for more details.
+
+©You should have received a copy of the GNU General Public License
+©along with this program.  If not, see <http://www.gnu.org/licenses/>.
+©------------------------------------------------------------------------
+
+Define LibPub xpi(x)=Prgm
+
+Local a,b,c,d,e,f,g
+Local stmp,res
+
+If x<4 or mod(x,4)≠0 Then
+    Disp "错误：自变量必须为大于4且能被4整除的整数。"
+	Stop
+EndIf
+
+c:=floor(x/4*14)
+a:=10000
+e:=0
+f:={}
+stmp:=""
+res:=""
+
+For i,1,c+1
+    f[i]:=2000
+EndFor
+
+res="3.141"
+Disp res
+res:=""
+
+i:=0
+While c≠0
+    d:=0
+	g:=c*2
+	b:=c
+	While true
+	    d:=floor(d+f[b+1]*a)
+		g:=g-1
+		f[b+1]:=mod(d,g)
+		d:=floor(d/g)
+		g:=g-1
+		b:=b-1
+		If b=0 Then
+		    Exit
+		EndIf
+		d:=d*b
+	EndWhile
+	c:=c-14
+	
+	If i>0 Then
+	    If e+d/a≥1 and e+d/a<10 Then
+		    stmp:="000"&string(floor(e+d/a))
+		ElseIf e+d/a≥10 and e+d/a<100 Then
+		    stmp:="00"&string(floor(e+d/a))
+		ElseIf e+d/a≥100 and e+d/a<1000 Then
+		    stmp:="0"&string(floor(e+d/a))
+		Else
+		    stmp:=string(floor(e+d/a))
+		EndIf
+		res:=res&stmp
+		
+		if mod(i,6)=0 Then
+		    Disp res
+			res:=""
+		EndIf
+	EndIf
+	i:=i+1
+	
+	e:=mod(d,a)
+EndWhile
+Disp res
